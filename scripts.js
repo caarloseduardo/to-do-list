@@ -18,8 +18,7 @@ const App = {
             const li = document.createElement('li')
             const description = document.querySelector('#description')
 
-            li.innerHTML = DOM.innerHTMLTask(description.value)
-            ul.appendChild(li)
+            ul.innerHTML += DOM.innerHTMLTask(description.value)
 
             Modal.close()
 
@@ -30,10 +29,13 @@ const App = {
         })
     },
 
-    removeTask() {
-        const li = document.querySelector('li')
+    removeTask(index) {
+        const li = document.querySelector(`#task-${index}`)
 
-		ul.removeChild(li);
+        ul.removeChild(li)
+
+        tasks--
+        title.innerHTML = `Você tem ${tasks} tarefas`
     }
 }
 
@@ -41,9 +43,11 @@ const App = {
 const DOM = {
     innerHTMLTask(description) {
         const html = `
-        <input type="checkbox" id="checkTask" name="checkTask">
-        <label for="checkTask">${description}</label>
-        <a class="button remove" onclick="App.removeTask()"> - </a>
+        <li id="task-${tasks}">
+            <input type="checkbox" id="checkTask" name="checkTask">
+            <label for="checkTask">${description}</label>
+            <a class="button remove" onclick="App.removeTask(${tasks})"> - </a>
+        </li>
     `
 
         return html
