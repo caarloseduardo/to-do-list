@@ -1,5 +1,7 @@
-const button =  document.querySelector('#btnSubmit')
-const list = document.querySelector('.tasks')
+const buttonAddTask =  document.querySelector('#addTask')
+const ul = document.querySelector('.tasks')
+const title = document.querySelector('.title')
+let tasks = 0
 
 const Modal = {
     open() {
@@ -12,23 +14,39 @@ const Modal = {
 
 const App = {
     init() {
-            button.addEventListener('click', () => {
-            const listItem = document.createElement('li')
-            const label = document.createElement('label')
-            const checkBox = document.createElement('input')
-            const description = document.querySelector('#description').value
+        buttonAddTask.addEventListener('click', () => {
+            const li = document.createElement('li')
+            const description = document.querySelector('#description')
 
-            label.classList.add('label')
-            label.innerHTML = ` ${description}`
-            checkBox.type = 'checkbox'
-
-            listItem.appendChild(checkBox)
-            listItem.appendChild(label)
-
-            list.appendChild(listItem)
+            li.innerHTML = DOM.innerHTMLTask(description.value)
+            ul.appendChild(li)
 
             Modal.close()
+
+            description.value = ''
+
+            tasks++
+            title.innerHTML = `Você tem ${tasks} tarefas`
         })
+    },
+
+    removeTask() {
+        const li = document.querySelector('li')
+
+		ul.removeChild(li);
+    }
+}
+
+
+const DOM = {
+    innerHTMLTask(description) {
+        const html = `
+        <input type="checkbox" id="checkTask" name="checkTask">
+        <label for="checkTask">${description}</label>
+        <a class="button remove" onclick="App.removeTask()"> - </a>
+    `
+
+        return html
     }
 }
 
