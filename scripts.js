@@ -1,4 +1,5 @@
-const buttonAddTask =  document.querySelector('#addTask')
+const addTaskButton =  document.querySelector('#addTask')
+const modalButtons = document.querySelector('.input-group.actions')
 const ul = document.querySelector('.tasks')
 const title = document.querySelector('.title')
 let tasks = 0
@@ -14,7 +15,9 @@ const Modal = {
 
 const App = {
     init() {
-        buttonAddTask.addEventListener('click', () => {
+        Title.updateTitle()
+
+        addTaskButton.addEventListener('click', () => {
             const li = document.createElement('li')
             const description = document.querySelector('#description')
 
@@ -25,28 +28,63 @@ const App = {
             description.value = ''
 
             tasks++
-            title.innerHTML = `Você tem ${tasks} tarefas`
+            Title.updateTitle()
         })
     },
+}
 
+const Task = {
     removeTask(index) {
         const li = document.querySelector(`#task-${index}`)
 
         ul.removeChild(li)
 
         tasks--
-        title.innerHTML = `Você tem ${tasks} tarefas`
+        Title.updateTitle()
+    },
+
+    editTask(index) {
+        const label = document.querySelector(`#label-${index}`)
+        const description = document.querySelector('#description')
+        description.value = label.textContent
+        
+        modalButtons.innerHTML = `
+            <a href="#" class="button cancel" onclick="Modal.close()">Cancelar</a>
+            <button type="button" id="editTask">Editar</button>
+        `
+        const editTaskButton =  document.querySelector('#editTask')
+
+        Modal.open()
+
+        editTaskButton.addEventListener('click', () => {
+            label.innerHTML = `${description.value}`
+            Modal.close()
+        })
     }
 }
 
+const Title = {
+    updateTitle() {
+        const date = new Date()
+        const weekDays = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado']
+        const weekDay = weekDays[date.getDay()]
+
+        title.innerHTML = `${weekDay}, Você tem ${tasks} tarefas`
+
+        return weekDay
+    }
+}
 
 const DOM = {
     innerHTMLTask(description) {
         const html = `
         <li id="task-${tasks}">
             <input type="checkbox" id="checkTask" name="checkTask">
-            <label for="checkTask">${description}</label>
-            <a class="button remove" onclick="App.removeTask(${tasks})"> - </a>
+            <label for="checkTask" id="label-${tasks}">${description}</label>
+            <div class="task-buttons">
+                <a class="button remove" onclick="Task.removeTask(${tasks})"> - </a>
+                <img src="assets/edit.svg" class="button edit" alt="Botão de editar" onclick="Task.editTask(${tasks})">
+            </div>
         </li>
     `
 

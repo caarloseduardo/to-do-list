@@ -33,11 +33,11 @@ section {
 /* Title */
 .title {
     color: white;
-    font-size: 32px;
+    font-size: 28px;
     margin-bottom: 30px;
 }
 
- /* Card */
+/* Card */
 .card {
     background: #282828;
     border-radius: 15px;
@@ -47,7 +47,7 @@ section {
     height: 70vh;
 }
 
- /* Tasks */
+/* Tasks */
 .tasks {
     color: #f1f1f1;
     display: flex;
@@ -55,6 +55,13 @@ section {
     justify-content: initial;
     align-items: center;
     margin-top: 10px;
+}
+
+.tasks .task-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 30px;
 }
 
 .tasks input[type=checkbox]:checked ~ label {
@@ -118,7 +125,7 @@ li {
     opacity: 1;
 }
 
-.tasks .button.remove {
+.button.remove {
     color: #e92929;
     text-decoration: none;
     font-size: 24px;
@@ -129,6 +136,11 @@ li {
     align-items: center;
     justify-content: center;
     margin-right: 25px;
+    cursor: pointer;
+}
+
+.button.edit {
+    width: 23px;
     cursor: pointer;
 }
 
