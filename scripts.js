@@ -1,4 +1,3 @@
-const addTaskButton =  document.querySelector('#addTask')
 const modalButtons = document.querySelector('.input-group.actions')
 const ul = document.querySelector('.tasks')
 const title = document.querySelector('.title')
@@ -8,32 +7,32 @@ const Modal = {
     open() {
         document.querySelector('.modal-overlay').classList.add('active')
     },
+
     close() {
+        modalButtons.innerHTML = `
+            <a href="#" class="button cancel" onclick="Modal.close()">Cancelar</a>
+            <button type="button" id="addTask" onclick="Task.addTask()">Adicionar</button>
+        `
+
         document.querySelector('.modal-overlay').classList.remove('active')
     }
 }
 
-const App = {
-    init() {
-        Title.updateTitle()
-
-        addTaskButton.addEventListener('click', () => {
-            const li = document.createElement('li')
-            const description = document.querySelector('#description')
-
-            ul.innerHTML += DOM.innerHTMLTask(description.value)
-
-            Modal.close()
-
-            description.value = ''
-
-            tasks++
-            Title.updateTitle()
-        })
-    },
-}
-
 const Task = {
+    addTask() {
+        const addTaskButton =  document.querySelector('#addTask')
+        const description = document.querySelector('#description')
+
+        ul.innerHTML += DOM.innerHTMLTask(description.value)
+
+        Modal.close()
+
+        description.value = ''
+
+        tasks++
+        Title.updateTitle()
+    },
+
     removeTask(index) {
         const li = document.querySelector(`#task-${index}`)
 
@@ -46,18 +45,23 @@ const Task = {
     editTask(index) {
         const label = document.querySelector(`#label-${index}`)
         const description = document.querySelector('#description')
-        description.value = label.textContent
-        
+
         modalButtons.innerHTML = `
             <a href="#" class="button cancel" onclick="Modal.close()">Cancelar</a>
             <button type="button" id="editTask">Editar</button>
         `
+
         const editTaskButton =  document.querySelector('#editTask')
+
+        description.value = label.textContent
 
         Modal.open()
 
         editTaskButton.addEventListener('click', () => {
             label.innerHTML = `${description.value}`
+
+            description.value = ''
+
             Modal.close()
         })
     }
@@ -92,4 +96,4 @@ const DOM = {
     }
 }
 
-App.init()
+Title.updateTitle()
